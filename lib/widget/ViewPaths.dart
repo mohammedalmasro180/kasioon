@@ -51,9 +51,14 @@ class _PathState extends State<Path> {
 
   @override
   Widget build(BuildContext context) {
+    storage.getItem('todos').toString()=="لم يتم الحجز";
 
 
+    if( storage.getItem('todos').toString()=="لم يتم الحجز"|| storage.getItem('todos').toString()=='null')
 
+    {enble=true;}
+    else
+    {enble=false;}
 
     saveperf(String Path)async  {
       SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
@@ -71,6 +76,9 @@ class _PathState extends State<Path> {
       return _data;
 
     }
+
+    storage.getItem('todos').toString()=='';
+
     return  Scaffold(
 
 

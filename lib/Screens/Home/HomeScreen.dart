@@ -48,7 +48,7 @@ Future getdata() async {
     setState(() {
       storage.setItem('name', _data[0]['name']);
       storage.setItem('address', _data[0]['address']);
-      storage.setItem('text', _data[0]['address']);
+      storage.setItem('text', _data[0]['Specialization']);
 
     });
     return _data;
@@ -66,6 +66,8 @@ Future getdata() async {
     });
   }
 
+
+
   _saveToStorage(String item) {
     storage.setItem('todos', item);
   }
@@ -82,7 +84,8 @@ Future getdata() async {
   _refreshProducts(context);
 });
 
-
+    var mdw=MediaQuery.of(context).size.width;
+    var mdh=MediaQuery.of(context).size.height;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -99,80 +102,79 @@ Future getdata() async {
               child: Padding(
 
                 padding: const EdgeInsets.only(top: 20, right: 10),
-                child: Row(
-                  children: [
-                    Expanded(child:
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MyImagePicker(),
-                        ),
-
-
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Countdown(
-                              seconds:1,
-                              build: (BuildContext context, double time) => Text(''),
-                              interval: Duration(milliseconds: 100),
-                              onFinished: () {
-                                setState(() {
-
-                                });
-                              },
-                            )
-                        ),
-
-                      ],
-
-
-                    ),
-
-
-                    ),
-                    Expanded(child: RefreshIndicator(
-                      onRefresh: () => _refreshProducts(context),
-                      child: Column(
+                child: Container(
+                  height: mdh/2,
+                  child: Row(
+                    children: [
+                      Expanded(child:
+                      Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-
-                              title: Text("الاسم"),
-                              subtitle: Text(
-                                storage.getItem('name').toString()
-                                ,),
-                            ),
+                            padding: const EdgeInsets.all(1.0),
+                            child: MyImagePicker(),
                           ),
+
+
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Countdown(
+                                seconds:1,
+                                build: (BuildContext context, double time) => Text(''),
+                                interval: Duration(milliseconds: 100),
+                                onFinished: () {
+                                  setState(() {
 
-                              title: Text("العنوان"),
-                              subtitle: Text(
-                                storage.getItem('address').toString()
-                                ,),
-                            ),
+                                  });
+                                },
+                              )
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              title: Text("الاختصاص"),
-                              subtitle: Text(
-                                  storage.getItem('text').toString()
-                              ),
-                            ),
-
-                          ),
-
 
                         ],
+
+
                       ),
-                    ))
 
-                  ],
 
+                      ),
+                      Expanded(child: RefreshIndicator(
+                        onRefresh: () => _refreshProducts(context),
+                        child: Container(
+                          height: mdh/2,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: ListTile(
+
+                                  title: Text("الاسم"+":"+" "+  storage.getItem('name').toString()),
+
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: ListTile(
+
+                                  title: Text("العنوان"+":"+" "+  storage.getItem('address').toString()),
+
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: ListTile(         title: Text("الاختصاص"+":"+" "+  storage.getItem('text').toString()),
+
+                                ),
+
+                              ),
+
+
+                            ],
+                          ),
+                        ),
+                      ))
+
+                    ],
+
+                  ),
                 )
 
               ),
@@ -181,7 +183,9 @@ Future getdata() async {
 
             Expanded(child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Path(),
+              child:  Container(
+                  height: mdh/2,
+                  child: Path()),
             )),
 
           ],

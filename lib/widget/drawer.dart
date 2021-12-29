@@ -1,3 +1,4 @@
+import 'package:drive011221/Screens/Home/message.dart';
 import 'package:drive011221/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -51,18 +52,8 @@ class _drwaerState extends State<drawer> {
           ),
           InkWell(
             onTap: (){
-
-
-            },
-            child: ListTile(
-              title: Text("مساراتي"),
-
-              leading: Icon(Icons.home),
-            ),
-          ),
-          InkWell(
-            onTap: (){
-
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
+                  Message()));
             },
             child: ListTile(
               title: Text("رسائل المدير"),
@@ -71,24 +62,6 @@ class _drwaerState extends State<drawer> {
             ),
           ),
           Divider(),
- InkWell(
-  child:   ListTile(
-    title: Text("تسجيل الخروج"),
-
-    leading: Icon(Icons.login),
-  ),
-onTap: () async{
-
-
-  sign=false;
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => MyLogin()));
-
-},
-)
-
-
-          ,
 
 
 

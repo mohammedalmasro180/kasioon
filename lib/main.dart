@@ -39,7 +39,7 @@ Future<void> main() async {
             ],
           ),
         ),
-        nextScreen: MyLogin(),
+        nextScreen:MyLogin(),
         splashTransition: SplashTransition.sizeTransition,
         //pageTransitionType: PageTransitionType.scale,
 
