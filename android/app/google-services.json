@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351319177291",
+    "project_id": "kasiooon",
+    "storage_bucket": "kasiooon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351319177291:android:59a407a5fcb8e06e3135ce",
+        "android_client_info": {
+          "package_name": "com.tpowep.kasioon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351319177291-o8aab3978p5r9lidlnpu31u6cjski8on.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD77ZN0Kqx6bTRMZYaOZ3ly9nmPkh_CvrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351319177291-o8aab3978p5r9lidlnpu31u6cjski8on.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

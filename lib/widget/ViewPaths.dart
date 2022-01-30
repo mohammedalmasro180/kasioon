@@ -1,10 +1,18 @@
+import 'dart:convert' show utf8;
 import 'package:localstorage/localstorage.dart';
 
+import 'package:time/time.dart';
+import 'package:intl/intl.dart';
+import 'package:timer_count_down/timer_count_down.dart';
+
+import 'package:timer_count_down/timer_controller.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+bool
+enble=true;
 class Path extends StatefulWidget {
 
   const Path({Key? key,}) : super(key: key);
@@ -14,31 +22,38 @@ class Path extends StatefulWidget {
   _PathState createState() => _PathState();
 }
 var person;
+var encoded = utf8.encode(storage.getItem('name').toString());
+var
+name = utf8.decode(encoded);
+
+final LocalStorage storage = new LocalStorage('todo_app');
+
+_saveToStorage(String item) {
+  storage.setItem('todos', item);
+  storage.setItem('day', DateTime.now().day);
+
+  storage.setItem('hour', DateTime.now().hour);
+
+
+}
+
+
+final CountdownController _controller =
+new CountdownController(autoStart: false);
+
 class _PathState extends State<Path> {
+late double op=0;
 
-  final LocalStorage storage = new LocalStorage('todo_app');
-
-  _saveToStorage(String item) {
-    storage.setItem('todos', item);
-
-  }
-  bool enble=true;
   var username="لم يتم الحجز";
+
+@override
+
   removeperf()async{
     SharedPreferences preferences=await SharedPreferences.getInstance();
     preferences.remove("Path");
 
-  }
-  getperf() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    if (preferences.getString("Path") != null) {
-      username = preferences.getString("Path").toString();
-    }
-    else if (preferences.getString("Path") == null) { username="لم يتم الحجز";}
-    print(username);
   }
-
 
   getuser(String user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -47,14 +62,18 @@ class _PathState extends State<Path> {
     print(user);
     return user;
   }
-
-
-  @override
+ @override
   Widget build(BuildContext context) {
-    storage.getItem('todos').toString()=="لم يتم الحجز";
+    int t=int.parse(DateTime.now().minute.toString());
+    setState(() {
+      //cheakpath();
+    });
 
+    if(
 
-    if( storage.getItem('todos').toString()=="لم يتم الحجز"|| storage.getItem('todos').toString()=='null')
+    storage.getItem('todos').toString()=="لم يتم الحجز"
+        ||
+        storage.getItem('todos').toString()=='null')
 
     {enble=true;}
     else
@@ -70,35 +89,49 @@ class _PathState extends State<Path> {
     Future getdata() async{
 
       Uri uri = Uri.parse("https://tpowep.com/pro/api/api.php");
+
       http.Response response = await http.get(uri);
       String jsonsDataString = response.body.toString();
       var    _data = jsonDecode(jsonsDataString);
+
       return _data;
 
     }
 
-    storage.getItem('todos').toString()=='';
-
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    print(formattedDate); // 2016-01-25
     return  Scaffold(
 
 
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
         children: [
-          Expanded(child: Text( storage.getItem('todos').toString()
+
+
+          Expanded(child: Text(
+            //DateTime.now().toString()
+            storage.getItem('todos').toString()=="null"?"لم يتم الحجز":storage.getItem('todos').toString()
             ,style: TextStyle(color: Colors.black),)),
           Expanded(child: InkWell(
               onTap: () async {
-setState(()  {
+                SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+                var ser=sharedPreferences.get("username");
+
+
+
+                setState(()  {
   enble=true;
 
-removeperf();
+
   _saveToStorage("لم يتم الحجز");
+  delpath(context, ser.toString(),);
 });
 },
  child: Icon(Icons.close,color: Colors.black,))),
-
 
         ],
       ),),
@@ -113,7 +146,7 @@ removeperf();
 
                     itemBuilder: (context,i) {
                       return ListTile(
-                        subtitle:  Text(snapshot.data[i]['timer'].toString(),),
+                        subtitle:  Text(formattedDate,),
                         title:  Row(
                           children: [
                             Expanded(child: Text(
@@ -121,39 +154,83 @@ removeperf();
                               style: TextStyle(fontSize: 15,),)),
 
 
-                            Expanded(child:RaisedButton(
+                            Expanded(child:Row(
+                              children: [
 
-                              color: Colors.black,
-                              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
-                              onPressed:enble?() async {
-                                setState(()=>enble=false);
-                                print(enble);
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: RaisedButton(
 
-                                _saveToStorage(snapshot.data[i]['form'].toString());
+                                    color: Colors.black,
+                                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
+                                    onPressed:enble?() async {
+                                      SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
 
-                                SharedPreferences preferences = await SharedPreferences.getInstance();
-                                var   user =  preferences.getString("username").toString();
-                                                                post(context,
-                                    snapshot.data[i]['id'].toString(),
-                                    user);
-
-
-                                getnum(snapshot.data[i]['id'].toString(),context);
+                                      var ser=sharedPreferences.get("username");
+                                      setState(() {
+                                        enble=false;
 
 
 
+                                        getnum(
 
-                              }:null,
+        snapshot.data[i]['id'].toString(),
 
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
 
-                                  Text("حجز",style: TextStyle(color:Colors.white),),
+                                            storage.getItem('name').toString(),
+                                            snapshot.data[i]['id'].toString(),
+                                            context,
 
-                                ],
-                              ),
+                                            //count
+                                            snapshot.data[i]['count'].toString(),
+                                            snapshot.data[i]['form'].toString(),
+                                          ser.toString()
+
+
+                                        );
+
+                                        op=1;
+                                      });
+
+
+
+
+
+
+                                      _controller.restart();
+
+                                    }:null,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+
+                                        Text("حجز",style: TextStyle(color:Colors.white),),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: Countdown(
+                                      controller: _controller,
+
+                                      seconds:1,
+                                      build: (_, double time) =>
+
+                                          Opacity(opacity: op,
+                                              child: CircularProgressIndicator()),
+                                      interval: Duration(milliseconds: 100),
+                                      onFinished: () {
+                                        setState(() {
+
+                                        });
+                                        op=0;
+                                      },
+                                    )
+                                ),
+                              ],
                             )),
 
 
@@ -166,6 +243,7 @@ removeperf();
                 );
 
               }
+
               else
                 return CircularProgressIndicator();
             }
@@ -173,19 +251,28 @@ removeperf();
 
     );
   }
+
 }
 
-post(BuildContext context,String number,String ser) async {
+
+
+
+
+
+
+  post(BuildContext context,String number,String ser,String name) async {
   var data = {
     "txt": number,
-    "ser":ser
+    "ser":ser,
+    "name":name
   };
   Uri url = Uri.parse(
       "https://tpowep.com/pro/api/code.php");
 
   var reesponse = await http.post(url, body: data);
   var responsebody = jsonDecode(reesponse.body);
-  print(responsebody);
+  enble=false;
+
 
 
 
@@ -196,7 +283,7 @@ delpath(BuildContext context,String ser) async {
     "txt":ser,
   };
   Uri url = Uri.parse(
-      "https://tpowep.com/pro/api/delpath.php");
+      "https://tpowep.com/pro/api/delpath.php?txt='$ser'");
 
   var reesponse = await http.post(url, body: data);
   var responsebody = jsonDecode(reesponse.body);
@@ -207,36 +294,40 @@ delpath(BuildContext context,String ser) async {
 
 
 }
-Future getnum(String number,BuildContext context) async {
+
+
+Future getnum(
+    String number,
+    String user,
+    String id,
+    BuildContext context,
+    String cont,
+    String storage,
+String usernamee,
+    )
+async {
   Uri uri = Uri.parse(
       "https://tpowep.com/pro/api/countpath.php?id=$number");
+  int gool=int.parse(cont);
   http.Response response = await http.get(uri);
 
-  if (response.statusCode == 200) {
-    print(response.statusCode);
-    print(json.decode(response.body));
-  } else {
-    print(response.statusCode);
+  print(response.body);
+  var jsonsDataString = response.body;
+  var _data = json.decode(jsonsDataString);
+  int coun = int.parse(_data);
+  if (coun >=gool) {
+    msg(context);
+  }
+  else {
+    _saveToStorage(storage);
+post(context, number, user,usernamee);
   }
 
-
-  var jsonsDataString = response.body;
-
-   var _data = json.decode(jsonsDataString);
-int   coun=int.parse(_data);
-  if(coun>40)
-    msg(context);
-  else
-
-
-
-  return coun;
 }
-
 Future<void> msg(BuildContext context) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // user must tap button!
+    barrierDismissible: false, // user must t\\ap button!
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Icon(Icons.error,color: Colors.red,),

@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drive011221/theme/color.dart';
 import 'package:drive011221/widget/drawer.dart';
+import 'package:drive011221/widget/myAd.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -39,6 +40,8 @@ class _MessageState extends State<Message> {
 
     }
     var mdw=MediaQuery.of(context).size.width;
+    var mdh=MediaQuery.of(context).size.height;
+
     return  Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -64,11 +67,11 @@ class _MessageState extends State<Message> {
                         return ListTile(
                           title: Container(
                             width: mdw/2,
-                            height: 60,
+                            height:mdh/2,
 //                        color: Colors.amber,
                             decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                        color:sub,
+                        color:Colors.blue,
                         boxShadow: [
                         BoxShadow(
 
@@ -77,16 +80,32 @@ class _MessageState extends State<Message> {
 
                         ]
 
+
                         ),
-                        child:Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(snapshot.data[i]['text'].toString(),style: TextStyle(fontSize:16 ),),
+                        child:SizedBox(
+                          width: 300,
+                          height: 140,
+                          child: AutoSizeText(
+                            snapshot.data[i]['text'].toString(),
+                            minFontSize: 16,
+                            style: TextStyle(fontSize: 30,fontWeight: FontWeight.w800),
+                            maxLines: 20,
+                          ),
                         ),
                           ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(snapshot.data[i]['dete'].toString(),),
+                          subtitle: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: myAd(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: Text(snapshot.data[i]['dete'].toString(),),
+                              ),
+                            ],
                           ),
+
                         );
 
                       }

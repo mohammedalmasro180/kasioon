@@ -1,26 +1,41 @@
-import 'dart:async';
+import 'package:drive011221/Screens/Home/message.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:localstorage/localstorage.dart';
 import 'dart:io';
 import 'package:drive011221/Screens/Home/HomeScreen.dart';
 import 'package:drive011221/Screens/Home/home.dart';
+import 'package:drive011221/Screens/Home/mainscreen.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:drive011221/login.dart';
 import 'package:flutter/services.dart';
-var username;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
+
+var username;
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+Future<void> _messageHandler(RemoteMessage message) async {
+  print('b');
+}
 Future<void> main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onMessageOpenedApp;
+
+
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]);
-
+ ]);
 
 
   HttpOverrides.global = MyHttpOverrides();
   runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
         splashIconSize: 333,
         duration: 3000,
@@ -44,48 +59,17 @@ Future<void> main() async {
         //pageTransitionType: PageTransitionType.scale,
 
 
-)  ));
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'Timer Periodic Demo', home: RopSayac());
-  }
-}
-
-class RopSayac extends StatefulWidget {
-  _RopSayacState createState() => _RopSayacState();
-}
-
-class _RopSayacState extends State<RopSayac> {
-  late String _now;
-  late Timer _everySecond;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // sets first value
-    _now = DateTime.now().second.toString();
-
-    // defines a timer
-    _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
-      setState(() {
-        _now = DateTime.now().second.toString();
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: new Text(_now),
       ),
-    );
-  }
+    routes: {
+
+      '/message': (context) =>Message(),
+      //'/home': (context) =>HomeScreen(name: ,),
+  },
+  )
+
+  );
 }
+
 class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){
@@ -93,8 +77,7 @@ class MyHttpOverrides extends HttpOverrides{
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
-//
-// getperf() async {
+//// getperf() async {
 //   BuildContext context;
 //   SharedPreferences preferences = await SharedPreferences.getInstance();
 //
@@ -109,17 +92,21 @@ class MyHttpOverrides extends HttpOverrides{
 // }
 //
 //
+
 go(BuildContext context) async{
   SharedPreferences preferences=await SharedPreferences.getInstance();
   username=   preferences.getString("username");
   if(username!= null) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
-
-    HomeScreen(name: username.text)));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context)=>
+          HomeScreen(name: username.text)),
+          (Route<dynamic> route) => false,
+    );
 
 
     print(username);
   }
   else
-{}
-  }
+  {}
+}
+

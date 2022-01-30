@@ -43,79 +43,67 @@ void eble()
   Widget _previewImage() {
 
 String url=  storage.getItem('img').toString();
-setState(() {
-  url  !=null?
-  _disabale=true
-      :
-  _disabale=false;
 
-});
-print(url);
+//print('=== '+url);
 
 
     return    SingleChildScrollView(
-      child: url!=null? Column(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(3.0),
             child: Container(
               height: MediaQuery.of(context).size.height/4,
-              child:
+              child:Container(
+                height:850,
+                width: 850,
+               child: Image.file(File(url.toString()) , width:850,height: 850,
+               errorBuilder: (BuildContext context,
+                   Object error,
+                   StackTrace? stackTrace){
+                 return Column(
+                   children: [
+                     Padding(
+                       padding: const EdgeInsets.all(2.0),
+                       child: Image.asset("img/0.jpg" , width: 190,height: 140,),
+                     ),
 
+                     Padding(
+                         padding: const EdgeInsets.only(bottom: 1,top: 0),
+                         child: RaisedButton(
+                           color:
+                           c2,
+                           padding: EdgeInsets.symmetric(
+                               vertical: 10, horizontal: 30),
+                           onPressed: () {
+                             _pickImage();
+                           },
 
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment
+                                 .center,
+                             mainAxisSize: MainAxisSize.min,
+                             children: [
+                               Text("صورة   شخصية", style: TextStyle(
+                                   color: Colors.white),),
+                               Icon(Icons
+                                   .picture_in_picture_alt_outlined,
+                                 color: Colors.white,
+                               )
+                             ],
+                           ),
+                         )
+                     ),
+                   ],
 
-              Container(
-                height: 250,
-                width: 250,
-               child: Image.file(File(url.toString()) , width: 200,height: 200,),
+                 );
+               },),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20)),
                 padding: const EdgeInsets.all(1.0),
-              )))] ):
+              ))),
 
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2.0),
-                     child: Image.asset(
-
-                        "assets/0.jpg",
-                        height: 150.0,
-                        width: 150.0,
-                        fit: BoxFit.cover,
-                      ),
-                   ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 10,top: 0),
-                      child: RaisedButton(
-                        color:
-                        c2,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 40),
-                        onPressed: () {
-                          _pickImage();
-                        },
-
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text("صورة   شخصية", style: TextStyle(
-                                color: Colors.white),),
-                            Icon(Icons
-                                .picture_in_picture_alt_outlined,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      )
-                  ),
-                ],
-              ),
+        ] )
             );
 
   }
@@ -128,13 +116,13 @@ print(url);
         _imageFile = pickedFile!;
         _load=true;
 
-        print(_imageFile.path.toString());
+  //      print(_imageFile.path.toString());
         // Step 1: Save image/file path as string either db or shared pref
 storage.setItem("img", _imageFile.path.toString());
 _disabale=false;
       });
     } catch (e) {
-      print("Image picker error " + e.toString());
+//      print("Image picker error " + e.toString());
     }
   }
 
