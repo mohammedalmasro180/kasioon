@@ -33,6 +33,7 @@ _saveToStorage(String item) {
   storage.setItem('day', DateTime.now().day);
 
   storage.setItem('hour', DateTime.now().hour);
+  storage.setItem('M', DateTime.now().minute);
 
 
 }
@@ -158,7 +159,7 @@ late double op=0;
                               children: [
 
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: RaisedButton(
 
                                     color: Colors.black,

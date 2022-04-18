@@ -34,77 +34,77 @@ class _MyImagePickerState extends State<MyImagePicker> {
 
     return filePath;
   }
-void eble()
-{
+  void eble()
+  {
 
-}
+  }
 
 
   Widget _previewImage() {
 
-String url=  storage.getItem('img').toString();
+    String url=  storage.getItem('img').toString();
 
 //print('=== '+url);
 
 
     return    SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height/4,
-              child:Container(
-                height:850,
-                width: 850,
-               child: Image.file(File(url.toString()) , width:850,height: 850,
-               errorBuilder: (BuildContext context,
-                   Object error,
-                   StackTrace? stackTrace){
-                 return Column(
-                   children: [
-                     Padding(
-                       padding: const EdgeInsets.all(2.0),
-                       child: Image.asset("img/0.jpg" , width: 190,height: 140,),
-                     ),
+        child: Column(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Container(
+                      height: MediaQuery.of(context).size.height/3,
+                      child:Container(
+                        height:850,
+                        width: 850,
+                        child: Image.file(File(url.toString()) , width:850,height: 850,
+                          errorBuilder: (BuildContext context,
+                              Object error,
+                              StackTrace? stackTrace){
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Image.asset("img/0.jpg" , width: 190,height: 140,),
+                                ),
 
-                     Padding(
-                         padding: const EdgeInsets.only(bottom: 1,top: 0),
-                         child: RaisedButton(
-                           color:
-                           c2,
-                           padding: EdgeInsets.symmetric(
-                               vertical: 10, horizontal: 30),
-                           onPressed: () {
-                             _pickImage();
-                           },
+                                Padding(
+                                    padding: const EdgeInsets.only(bottom: 1,top: 0),
+                                    child: RaisedButton(
+                                      color:
+                                      c2,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 30),
+                                      onPressed: () {
+                                        _pickImage();
+                                      },
 
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment
-                                 .center,
-                             mainAxisSize: MainAxisSize.min,
-                             children: [
-                               Text("صورة   شخصية", style: TextStyle(
-                                   color: Colors.white),),
-                               Icon(Icons
-                                   .picture_in_picture_alt_outlined,
-                                 color: Colors.white,
-                               )
-                             ],
-                           ),
-                         )
-                     ),
-                   ],
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("صورة   شخصية", style: TextStyle(
+                                              color: Colors.white),),
+                                          Icon(Icons
+                                              .picture_in_picture_alt_outlined,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                ),
+                              ],
 
-                 );
-               },),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20)),
-                padding: const EdgeInsets.all(1.0),
-              ))),
+                            );
+                          },),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20)),
+                        padding: const EdgeInsets.all(1.0),
+                      ))),
 
-        ] )
-            );
+            ] )
+    );
 
   }
 
@@ -116,10 +116,10 @@ String url=  storage.getItem('img').toString();
         _imageFile = pickedFile!;
         _load=true;
 
-  //      print(_imageFile.path.toString());
+        //      print(_imageFile.path.toString());
         // Step 1: Save image/file path as string either db or shared pref
-storage.setItem("img", _imageFile.path.toString());
-_disabale=false;
+        storage.setItem("img", _imageFile.path.toString());
+        _disabale=false;
       });
     } catch (e) {
 //      print("Image picker error " + e.toString());

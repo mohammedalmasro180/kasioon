@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getmesg();
     gettoken();
 
-    getdata();
+getdata();
 
     tz.initializeTimeZones();
 
@@ -139,13 +139,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
- Future getdata() async {
+  Future getdata() async {
     Uri uri = Uri.parse(
         "https://mhd.tpowep.com/json" + widget.name.toString() + "");
 
     http.Response response = await http.get(uri);
 
-    if (response.body== "[]") {
+    var DataString = response.body;
+    var _dataa = json.decode(DataString);
+
+    if (_dataa.toString()== "[]") {
       removeperf();
       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
           MyLogin()));
@@ -154,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       print(response.statusCode);
     }
-
+    print("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd="+_dataa.toString());
 
     var jsonsDataString = response.body;
     var _data = json.decode(jsonsDataString);
@@ -188,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ){
 
         setState(() {
-         storage.setItem('todos',"لم يتم الحجز");
+          storage.setItem('todos',"لم يتم الحجز");
           storage.setItem("day",0);
           storage.setItem("hour",0);
           //delpath(context);
@@ -203,26 +206,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
     setState(() {
-
+getdata();
 
     });    var mdw=MediaQuery.of(context).size.width;
     var mdh=MediaQuery.of(context).size.height;
 
-      return WillPopScope(
-        onWillPop: () async{
-          final timegap = DateTime.now().difference(pre_backpress);
-          final cantExit = timegap >= Duration(seconds: 2);
-          pre_backpress = DateTime.now();
-          if(cantExit){
-            //show snackbar
-            final snack = SnackBar(content: Text('Press Back button again to Exit'),
-              duration: Duration(seconds: 2),);
-            exit(0);
-            return false;
-          }else{
-            return true;
-          }
-        },
+    return WillPopScope(
+      onWillPop: () async{
+        final timegap = DateTime.now().difference(pre_backpress);
+        final cantExit = timegap >= Duration(seconds: 2);
+        pre_backpress = DateTime.now();
+        if(cantExit){
+          //show snackbar
+          final snack = SnackBar(content: Text('Press Back button again to Exit'),
+            duration: Duration(seconds: 2),);
+          exit(0);
+          return false;
+        }else{
+          return true;
+        }
+      },
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

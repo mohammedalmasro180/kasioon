@@ -38,7 +38,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
         splashIconSize: 333,
-        duration: 3000,
+        duration: 300,
         splash: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
