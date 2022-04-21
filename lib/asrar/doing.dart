@@ -94,12 +94,7 @@ class _doingState extends State<doing> {
   Widget build(BuildContext context) {
     late int i=0;
         return Scaffold(
-      appBar: AppBar(title: InkWell(
-          onTap: (){
-_save();
-          },
 
-          child: Text("حفظ في الذاكرة")),),
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(

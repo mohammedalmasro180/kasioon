@@ -86,9 +86,6 @@ class _MynafelhListState extends State<nafelhList> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Localstorage demo'),
-      ),
       body: Container(
           padding: EdgeInsets.all(10.0),
           constraints: BoxConstraints.expand(),
@@ -120,8 +117,10 @@ class _MynafelhListState extends State<nafelhList> {
 
               List<Widget> widgets = list.items.map((item) {
                 return ListTile(
-                  title: Text(item.title),
-                  subtitle:   Text(item.numner),
+                  title: Text("النافلة"+item.title),
+                  subtitle:   Text(
+                      "عدد الركعات"+
+                      item.numner),
                 );
               }).toList();
 

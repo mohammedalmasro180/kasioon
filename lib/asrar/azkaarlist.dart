@@ -47,7 +47,7 @@ class _MyazkarListState extends State<azkarList> {
   TextEditingController num = new TextEditingController ();
 
   final TodoList list = new TodoList();
-  final LocalStorage storage = new LocalStorage('azkaar');
+  final LocalStorage storage = new LocalStorage('azkar');
   bool initialized = false;
   TextEditingController controller = new TextEditingController();
 
@@ -72,23 +72,21 @@ class _MyazkarListState extends State<azkarList> {
     controller.clear();
   }
   _saveToStorage() {
-    storage.setItem('azkaar', list.toJSONEncodable());
+    storage.setItem('azkar', list.toJSONEncodable());
   }
 
   _clearStorage() async {
     await storage.clear();
 
     setState(() {
-      list.items = storage.getItem('azkaar') ?? [];
+      list.items = storage.getItem('azkar') ?? [];
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Localstorage demo'),
-      ),
+
       body: Container(
           padding: EdgeInsets.all(10.0),
           constraints: BoxConstraints.expand(),
@@ -102,7 +100,7 @@ class _MyazkarListState extends State<azkarList> {
               }
 
               if (!initialized) {
-                var items = storage.getItem('azkaar');
+                var items = storage.getItem('azkar');
 
                 if (items != null) {
                   list.items = List<TodoItem>.from(
