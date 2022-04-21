@@ -1,4 +1,9 @@
 import 'package:drive011221/Screens/Home/message.dart';
+import 'package:drive011221/asrar/Home.dart';
+import 'package:drive011221/asrar/Second.dart';
+import 'package:drive011221/asrar/doing.dart';
+import 'package:drive011221/asrar/naflheadd.dart';
+import 'package:drive011221/asrar/naflhlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:localstorage/localstorage.dart';
 import 'dart:io';
@@ -36,31 +41,9 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AnimatedSplashScreen(
-        splashIconSize: 333,
-        duration: 300,
-        splash: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset("img/logo.png"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("مكتب النقل",style: TextStyle(fontSize: 22),),
-              )
-            ],
-          ),
-        ),
-        nextScreen:MyLogin(),
-        splashTransition: SplashTransition.sizeTransition,
-        //pageTransitionType: PageTransitionType.scale,
+      home: homescreen(),
 
-
-      ),
-    routes: {
+        routes: {
 
       '/message': (context) =>Message(),
       //'/home': (context) =>HomeScreen(name: ,),

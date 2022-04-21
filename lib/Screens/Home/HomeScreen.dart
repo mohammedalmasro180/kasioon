@@ -153,11 +153,10 @@ getdata();
       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
           MyLogin()));
       print("nullok");
-      //  print(json.decode(response.body));
+
     } else {
       print(response.statusCode);
     }
-    print("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd="+_dataa.toString());
 
     var jsonsDataString = response.body;
     var _data = json.decode(jsonsDataString);
@@ -181,12 +180,14 @@ getdata();
   Widget build(BuildContext context) {
 
 
+
     final LocalStorage storage = new LocalStorage('todo_app');
     int h=int.parse(DateTime.now().second.toString());
 //333if({}
     if(storage.getItem("hour")!=null){
-      if(DateTime.now().hour >=6 &&
-          (storage.getItem("hour") < 6
+      if(DateTime.now().hour >=6 &&DateTime.now().minute >=30 &&
+          (storage.getItem("hour") < 6 &&storage.getItem("M") < 30
+
               || storage.getItem("day")!=DateTime.now().day)
       ){
 
@@ -199,16 +200,13 @@ getdata();
 
         });
 
+
       }
 
     }
     DateTime pre_backpress = DateTime.now();
 
-
-    setState(() {
-getdata();
-
-    });    var mdw=MediaQuery.of(context).size.width;
+  var mdw=MediaQuery.of(context).size.width;
     var mdh=MediaQuery.of(context).size.height;
 
     return WillPopScope(

@@ -94,6 +94,7 @@ class _MyImagePickerState extends State<MyImagePicker> {
                                       ),
                                     )
                                 ),
+
                               ],
 
                             );
