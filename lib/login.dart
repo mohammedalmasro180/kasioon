@@ -330,8 +330,8 @@ Future<void> msg(BuildContext context) async {
       );
     },
   );
-}Future<void>
-chlog(BuildContext context) async {
+}
+Future<void>chlog(BuildContext context) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!

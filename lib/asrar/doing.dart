@@ -1,4 +1,4 @@
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:flutter/material.dart';
@@ -152,17 +152,8 @@ SizedBox(width: MediaQuery.of(context).size.width,),
                         vertical: 10, horizontal: 30),
                     onPressed: () {
                       _save();
-                      Fluttertoast.showToast(msg:"تم الحفظ",
-
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-
-                          textColor: Colors.black,
-                          fontSize: 16.0);
-                    },
-
-                    child: Row(
+                      chlog(context);
+                    },        child: Row(
                       mainAxisAlignment: MainAxisAlignment
                           .center,
                       mainAxisSize: MainAxisSize.min,
@@ -170,8 +161,8 @@ SizedBox(width: MediaQuery.of(context).size.width,),
                         Text("حفظ في الذاكرة", style: TextStyle(
                             color: Colors.black),),
 
+]
 
-                      ],
                     ),
                   )
               ),
@@ -183,4 +174,31 @@ SizedBox(width: MediaQuery.of(context).size.width,),
 
     );
   }
+}
+Future<void>chlog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('تم الحفظ'),
+
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

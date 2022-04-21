@@ -129,7 +129,8 @@ class _addnaflhState extends State<addnaflh> {
                         vertical: 10, horizontal: 30),
                     onPressed: () {
                       _save();
-                    },
+                    chlog(context);
+                      },
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment
@@ -154,3 +155,31 @@ class _addnaflhState extends State<addnaflh> {
 }
 
 
+
+Future<void>chlog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('تم الحفظ'),
+
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
