@@ -1,6 +1,7 @@
 
 
 
+import 'package:drive011221/asrar/sqllite/db.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -85,60 +86,49 @@ class _MynafelhListState extends State<nafelhList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Container(
-          padding: EdgeInsets.all(10.0),
-          constraints: BoxConstraints.expand(),
-          child: FutureBuilder(
-            future: storage.ready,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+    getdata();
+    return Directionality(
+      textDirection: TextDirection.rtl,
 
-              if (!initialized) {
-                var items = storage.getItem('todos');
+      child: new Scaffold(
 
-                if (items != null) {
-                  list.items = List<TodoItem>.from(
-                    (items as List).map(
-                          (item) => TodoItem(
-                        title: item['title'],
-                        numner: item['number'],
-                      ),
-                    ),
-                  );
+        body: Container(
+            padding: EdgeInsets.all(10.0),
+            constraints: BoxConstraints.expand(),
+            child:    FutureBuilder(
+                future: getdata(),
+                builder:(BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context,i) {
+                          return ListTile(
+                            title: Text("  النافلة"+"  "+snapshot.data![i]['text'].toString()),
+                            subtitle: Text("  عدد الركعات"+" "+snapshot.data![i]['num'].toString()),
+                            //  leading: Text(snapshot.data![i]['dete'].toString()),
+                          );
+
+                        }
+                    );
+
+                  }
+
+                  else
+                    return CircularProgressIndicator();
                 }
-
-                initialized = true;
-              }
-
-              List<Widget> widgets = list.items.map((item) {
-                return ListTile(
-                  title: Text("النافلة"+item.title),
-                  subtitle:   Text(
-                      "عدد الركعات"+
-                      item.numner),
-                );
-              }).toList();
-
-              return Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: ListView(
-                      children: widgets,
-                      itemExtent: 50.0,
-                    ),
-                  ),
-                ],
-              );
-            },
-          )),
+            )
+        ),
+      ),
     );
   }
+  SqlDb sqlDb=new SqlDb();
 
+  Future<List<Map>> getdata () async{
 
+    List<Map> result= await sqlDb.readData("SELECT *FROM nafl");
+    print("$result");
+    return result;
+  }
 }

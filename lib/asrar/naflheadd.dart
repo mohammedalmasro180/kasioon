@@ -1,4 +1,5 @@
 //addnaflh
+import 'package:drive011221/asrar/sqllite/db.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:drive011221/Screens/Home/mainscreen.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,7 @@ class _addnaflhState extends State<addnaflh> {
   }
 
   Widget build(BuildContext context) {
+ SqlDb sqlDb=new SqlDb();
     return Scaffold(
         body: Container(
           decoration: BoxDecoration(
@@ -127,9 +129,16 @@ class _addnaflhState extends State<addnaflh> {
                     color: Colors.grey.shade100,
                     padding: EdgeInsets.symmetric(
                         vertical: 10, horizontal: 30),
-                    onPressed: () {
-                      _save();
-                    chlog(context);
+                    onPressed: () async {
+
+                      int response=await sqlDb.insertData(
+                          "INSERT INTO `nafl` ('text','num','dete') VALUES"
+                              "('"+text.text+"','"+num.text+"','"+DateTime.now().toString()+"')");
+
+
+
+
+                      chlog(context);
                       },
 
                     child: Row(

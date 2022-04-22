@@ -224,7 +224,10 @@ getdata();
           return true;
         }
       },
-      child: Directionality(
+      child:
+
+
+      Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
 

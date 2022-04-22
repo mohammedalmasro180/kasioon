@@ -1,6 +1,7 @@
 
 
 
+import 'package:drive011221/asrar/sqllite/db.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -85,59 +86,49 @@ class _MyazkarListState extends State<azkarList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+getdata();
+    return Directionality(
+      textDirection: TextDirection.rtl,
 
-      body: Container(
-          padding: EdgeInsets.all(10.0),
-          constraints: BoxConstraints.expand(),
-          child: FutureBuilder(
-            future: storage.ready,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+      child: new Scaffold(
 
-              if (!initialized) {
-                var items = storage.getItem('azkar');
+        body: Container(
+            padding: EdgeInsets.all(10.0),
+            constraints: BoxConstraints.expand(),
+            child:    FutureBuilder(
+            future: getdata(),
+          builder:(BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+              itemCount: snapshot.data!.length,
+physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context,i) {
+                    return ListTile(
+                      title: Text("  الذكر"+"  "+snapshot.data![i]['text'].toString()),
+                    subtitle: Text("  العدد"+" "+snapshot.data![i]['num'].toString()),
+                      //  leading: Text(snapshot.data![i]['dete'].toString()),
+                    );
 
-                if (items != null) {
-                  list.items = List<TodoItem>.from(
-                    (items as List).map(
-                          (item) => TodoItem(
-                        title: item['title'],
-                        numner: item['number'],
-                      ),
-                    ),
-                  );
-                }
-
-                initialized = true;
-              }
-
-              List<Widget> widgets = list.items.map((item) {
-                return ListTile(
-                  title: Text(item.title),
-                  subtitle:   Text(item.numner),
-                );
-              }).toList();
-
-              return Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: ListView(
-                      children: widgets,
-                      itemExtent: 50.0,
-                    ),
-                  ),
-                ],
+                  }
               );
-            },
-          )),
+
+            }
+
+            else
+              return CircularProgressIndicator();
+          }
+      )
+    ),
+    ),
     );
   }
+  SqlDb sqlDb=new SqlDb();
 
+  Future<List<Map>> getdata () async{
 
+  List<Map> result= await sqlDb.readData("SELECT *FROM azkar");
+  print("$result");
+return result;
+}
 }

@@ -65,6 +65,7 @@ dev_dependencies:
   google_mobile_ads: ^0.12.1+1
   firebase_core: ^1.11.0
   pull_to_refresh: ^2.0.0
+
   flutter_local_notifications: ^7.0.0
 
   timezone: ^0.7.0
@@ -82,7 +83,7 @@ dev_dependencies:
 flutter_icons:
   android:  "launcher_icon"
   ios: true
-  image_path: "img/icon.png"
+  image_path: "assets/logo2.png"
 
 
 

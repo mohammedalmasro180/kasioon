@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:drive011221/asrar/sqllite/db.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:flutter/material.dart';
 class doing extends StatefulWidget {
@@ -92,82 +93,96 @@ class _doingState extends State<doing> {
     });
   }
   Widget build(BuildContext context) {
+    SqlDb sqlDb=new SqlDb();
     late int i=0;
-        return Scaffold(
+        return Directionality(
+          textDirection: TextDirection.rtl,
 
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/wq.jpg",),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Text("${widget.text}",style: TextStyle(fontSize: 23),),
+          child: Scaffold(
+
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/wq.jpg",),
+                fit: BoxFit.cover,
               ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text("${widget.text}",style: TextStyle(fontSize: 23),),
+                ),
 
       Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Text("$_counter",style: TextStyle(fontSize: 33),),
+          padding: const EdgeInsets.all(2.0),
+          child: Text("$_counter",style: TextStyle(fontSize: 23),),
       ),
 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                    onTap: (){
-                      _incrementCounter();
-                    },
-                    child: Image.asset("assets/csm.png")),
-              ),
-
-              GestureDetector(
-                onTap: (){
-  _resetCounter();
-                },
-
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset("assets/csm.png",width: 22,height: 22,),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: GestureDetector(
+                      onTap: (){
+                        _incrementCounter();
+                      },
+                      child: Image.asset("assets/csm.png")),
                 ),
-              ),
+
+                GestureDetector(
+                  onTap: (){
+  _resetCounter();
+                  },
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset("assets/csm.png",width: 22,height: 22,),
+                  ),
+                ),
 
 
 SizedBox(width: MediaQuery.of(context).size.width,),
 
 
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 1,top: 0),
-                  child: RaisedButton(
-                    color: Colors.grey.shade100,
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 30),
-                    onPressed: () {
-                      _save();
-                      chlog(context);
-                    },        child: Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text("حفظ في الذاكرة", style: TextStyle(
-                            color: Colors.black),),
+                Padding(
+                    padding: const EdgeInsets.only(bottom: 1,top: 0),
+                    child: RaisedButton(
+                      color: Colors.grey.shade100,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 30),
+                      onPressed: ()async {
+                        int response=await sqlDb.insertData(
+                            "INSERT INTO `azkar` ('text','num','dete') VALUES"
+                                "('"+widget.text+"','"+_counter.toString()+"','"+DateTime.now().toString()+"')");
+
+
+                        List<Map> result=await sqlDb.readData("SELECT *FROM azkar");
+                        print("$result");
+
+                        chlog(context);
+                      },        child: Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("حفظ في الذاكرة", style: TextStyle(
+                              color: Colors.black),),
 
 ]
 
-                    ),
-                  )
-              ),
+                      ),
+                    )
+                ),
 
-            ],
+
+
+              ],
+            ),
           ),
-        ),
 
 
-    );
+    ),
+        );
   }
 }
 Future<void>chlog(BuildContext context) async {
